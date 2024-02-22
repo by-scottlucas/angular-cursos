@@ -1,15 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { delay, first, tap } from 'rxjs';
 import { Curso } from '../model/curso';
-import { Observable, delay, first, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CursosService {
 
-  private readonly api = '../../../assets/cursos.json';
+  private readonly api = 'http://localhost:8080/api/v1/cursos';
 
   constructor(private http: HttpClient) { }
 
@@ -17,8 +17,17 @@ export class CursosService {
     return this.http.get<Curso[]>(this.api)
       .pipe(
         first(),
-        delay(2000),
+        delay(800),
         tap(cursos => console.log(cursos))
       );
   }
+
+  save(data: Partial<Curso>) {
+    return this.http.post<Curso>(this.api, data);
+  }
+
+  getById(id: String) {
+    return this.http.get<Curso>(`this.api/${id}`);
+  }
+
 }
