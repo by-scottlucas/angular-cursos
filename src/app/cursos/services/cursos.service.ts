@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { delay, first, tap } from 'rxjs';
+import { Observable, delay, first } from 'rxjs';
+import { environment } from '../../../environments/environment';
 import { Curso } from '../model/curso';
 
 @Injectable({
@@ -9,7 +10,8 @@ import { Curso } from '../model/curso';
 })
 export class CursosService {
 
-  private readonly api = 'http://localhost:8080/api/v1/cursos';
+  private readonly baseApiUrl = environment.baseApiUrl;
+  private readonly api = `${this.baseApiUrl}/api/v1/cursos`;
 
   constructor(private http: HttpClient) { }
 
@@ -18,7 +20,7 @@ export class CursosService {
       .pipe(
         first(),
         delay(800),
-        tap(cursos => console.log(cursos))
+        // tap(cursos => console.log(cursos))
       );
   }
 
@@ -26,8 +28,10 @@ export class CursosService {
     return this.http.post<Curso>(this.api, data);
   }
 
-  getById(id: String) {
-    return this.http.get<Curso>(`this.api/${id}`);
+  getById(id: string): Observable<Curso> {
+    // const url = `${this.api}/${id}`;
+    const url = this.api + id;
+    return this.http.get<Curso>(url);
   }
 
 }
