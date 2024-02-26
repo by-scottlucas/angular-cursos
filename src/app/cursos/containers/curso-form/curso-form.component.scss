@@ -1,11 +1,13 @@
 mat-card {
-  max-width: 80%;
-  margin: 2em auto;
+  border-radius: 0;
+  width: 80%;
+  margin: 4em auto;
   align-items: center;
 }
 
 mat-card-content {
-  width: 90%;
+  margin: 0 auto;
+  width: 95%;
 }
 
 mat-toolbar{
@@ -19,4 +21,16 @@ mat-toolbar{
 .min-width {
   width: 100%;
   min-width: 150px;
+}
+
+mat-card-actions{
+  padding: 0;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+mat-card-actions button{
+  width: 100px;
+  border-radius: 2px;
+  margin-left: 10px;
 }

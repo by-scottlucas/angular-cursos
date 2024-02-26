@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, delay, first } from 'rxjs';
+import { Observable, first } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Curso } from '../model/curso';
 
@@ -19,7 +19,7 @@ export class CursosService {
     return this.http.get<Curso[]>(this.api)
       .pipe(
         first(),
-        delay(800),
+        // delay(800),
         // tap(cursos => console.log(cursos))
       );
   }
@@ -29,9 +29,7 @@ export class CursosService {
   }
 
   getById(id: string): Observable<Curso> {
-    // const url = `${this.api}/${id}`;
-    const url = this.api + id;
-    return this.http.get<Curso>(url);
+    return this.http.get<Curso>(`${this.api}/${id}`);
   }
 
 }

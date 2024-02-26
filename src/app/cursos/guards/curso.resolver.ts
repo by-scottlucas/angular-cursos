@@ -16,7 +16,7 @@ export class CursoResolver {
     if (route.params && route.params['id']) {
       return this.cursoService.getById(route.params['id']);
     }
-    return of({ _id: '', nome: '', categoria: '' });
+    return of({ id: '', nome: '', categoria: '' });
   }
 
 };

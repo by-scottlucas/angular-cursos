@@ -40,10 +40,8 @@ export class CursosComponent {
   }
 
   onEdit(curso: Curso) {
-
-    // const id = curso._id;
-
-    this.router.navigate(["edit", curso._id], { relativeTo: this.route });
+    const id: any = curso.id;
+    this.router.navigate(["edit", id], { relativeTo: this.route });
   }
 
 }
