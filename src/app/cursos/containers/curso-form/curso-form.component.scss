@@ -10,12 +10,13 @@ mat-card-content {
   width: 95%;
 }
 
-mat-toolbar{
+mat-toolbar {
   margin-bottom: 20px;
 }
 
 .full-width {
   width: 100%;
+  margin-bottom: 10px;
 }
 
 .min-width {
@@ -23,13 +24,13 @@ mat-toolbar{
   min-width: 150px;
 }
 
-mat-card-actions{
+mat-card-actions {
   padding: 0;
   width: 100%;
   justify-content: flex-end;
 }
 
-mat-card-actions button{
+mat-card-actions button {
   width: 100px;
   border-radius: 2px;
   margin-left: 10px;

@@ -25,11 +25,30 @@ export class CursosService {
   }
 
   save(data: Partial<Curso>) {
-    return this.http.post<Curso>(this.api, data);
+    console.log(data);
+    if (data.id) {
+      console.log('update');
+      return this.update(data);
+    }
+    console.log('create');
+    return this.create(data);
   }
 
   getById(id: string): Observable<Curso> {
     return this.http.get<Curso>(`${this.api}/${id}`);
   }
 
+  remove(id: String) {
+    const url = `${this.api}/${id}`
+    return this.http.delete(url);
+  }
+
+  private create(data: Partial<Curso>) {
+    return this.http.post<Curso>(this.api, data);
+  }
+
+  private update(data: Partial<Curso>) {
+    const url = `${this.api}/${data.id}`
+    return this.http.put<Curso>(url, data);
+  }
 }
