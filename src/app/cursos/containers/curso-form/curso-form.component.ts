@@ -1,8 +1,10 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { FormUtilsService } from '../../../shared/form/form-utils.service';
+import { Aula } from '../../model/aula';
 import { Curso } from '../../model/curso';
 import { CursosService } from '../../services/cursos.service';
 
@@ -13,57 +15,69 @@ import { CursosService } from '../../services/cursos.service';
 })
 export class CursoFormComponent implements OnInit {
 
-  form = this.formBuilder.group({
-    id: [''],
-    nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
-    categoria: ['', [Validators.required]],
-  });
+  form!: FormGroup;
 
   constructor(
     private formBuilder: NonNullableFormBuilder,
     private cursoService: CursosService,
-    private router: Router,
     private location: Location,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public formUtils: FormUtilsService
   ) { }
 
   ngOnInit(): void {
-
     const curso: Curso = this.route.snapshot.data['curso'];
-
-    this.form.setValue({
-      id: curso.id,
-      nome: curso.nome,
-      categoria: curso.categoria
-    })
-
+    this.form = this.formBuilder.group({
+      id: [curso.id],
+      nome: [curso.nome, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      categoria: [curso.categoria, [Validators.required]],
+      aulas: this.formBuilder.array(this.obterAulas(curso), [Validators.required])
+    });
   }
 
-  getErrorMessage(fieldName: string) {
-    const field = this.form.get(fieldName);
-
-    if (field?.hasError('required')) {
-      return 'Campo obrigatório';
+  private obterAulas(curso: Curso) {
+    const aulas = [];
+    if (curso?.aulas) {
+      curso.aulas.forEach(aula => aulas.push(this.criarAula(aula)));
+    } else {
+      aulas.push(this.criarAula());
     }
+    return aulas;
+  }
 
-    if (field?.hasError('minlength')) {
-      const requiredLength = field.errors ? field.errors['minlength']['requiredLength'] : 5;
-      return `Tamanho mínimo precisa ser de ${requiredLength} caracteres`;
-    }
+  private criarAula(aula: Aula = { id: '', nome: '', url: '' }) {
+    return this.formBuilder.group({
+      id: [aula.id],
+      nome: [aula.nome, [Validators.required, Validators.minLength(5), Validators.maxLength(100)]],
+      url: [aula.url, [Validators.required, Validators.minLength(10), Validators.maxLength(11)]]
+    })
+  }
 
-    if (field?.hasError('maxlength')) {
-      const requiredLength = field.errors ? field.errors['maxlength']['requiredLength'] : 200;
-      return `Tamanho máximo excedido de ${requiredLength} caracteres.`;
-    }
+  getLessonsFormArray() {
+    return (<UntypedFormArray>this.form.get("aulas")).controls;
+  }
 
-    return 'Campo inválido';
+  addNewLesson() {
+    const aulas = this.form.get("aulas") as UntypedFormArray;
+    aulas.push(this.criarAula());
+  }
+
+  removeLesson(index: number) {
+    const aulas = this.form.get("aulas") as UntypedFormArray;
+    aulas.removeAt(index);
   }
 
   onSubmit() {
-    const data = this.form.value;
-    this.cursoService.save(data).subscribe(result => this.onSucess(), error => this.onError());
-    this.location.back();
+
+    if (this.form.valid) {
+      const data = this.form.value;
+      this.cursoService.save(data).subscribe(result => this.onSucess(), error => this.onError());
+      this.location.back();
+    } else {
+      this.formUtils.validateAllFormField(this.form);
+    }
+
   }
 
   onCancel() {
