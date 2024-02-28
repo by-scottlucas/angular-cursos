@@ -2,17 +2,27 @@
 
   <mat-toolbar color="primary" class="title">Cursos Disponíveis</mat-toolbar>
 
-  <div class="mat-elevation-z8 column-flex">
+  <div class="mat-elevation-z8 column-flex" *ngIf="cursos$ | async as cursos; else loading">
 
-    <app-cursos-lista *ngIf="cursos$ | async as cursos; else loading" [cursos]="cursos" (add)="onAdd()"
-      (edit)="onEdit($event)" (remove)="onRemove($event)"></app-cursos-lista>
+    <app-cursos-lista [cursos]="cursos.cursos" (add)="onAdd()" (edit)="onEdit($event)" (remove)="onRemove($event)">
+    </app-cursos-lista>
 
-    <ng-template #loading>
-      <div class="loading-spinner">
-        <mat-spinner />
-      </div>
-    </ng-template>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 15]"
+      showFirstLastButtons
+      [pageIndex]="pageIndex"
+      [pageSize]="pageSize"
+      [length]="cursos.totalElementos"
+      (page)="refresh($event)"
+      aria-label="Selecione a página de cursos">
+    </mat-paginator>
 
   </div>
+
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <mat-spinner />
+    </div>
+  </ng-template>
 
 </mat-card>
