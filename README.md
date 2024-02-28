@@ -1,27 +1,26 @@
-# CrudAngular
+# Angular - Sistema de Cursos
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+Este projeto se trata de uma sistema para cadastro de cursos. O projeto foi desenvolvido para fins de estudo sobre o framework Angular.
 
-## Development server
+## Introdução
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+O projeto se trata de uma interface que compoe um sistema de cursos. A interface consome uma api extena que possibilita cadastrar, exibir, atualizar e excluir cursos e aulas do sistema.
 
-## Code scaffolding
+### Pré-requisitos
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Para utilizar o projeto é necessário primeiramente instalar as dependências do mesmo, para isso, basta estar no diretório do projeto, abrir um novo terminal e digitar o comando:
+```
+npm install
+```
 
-## Build
+Após isso, para inicializar o projeto em modo desenvolvimento, digite o comando:
+```
+ng serve
+```
+O projeto será iniciado no navegador em `http://localhost:4200/`. Cada alteração feita é recarregada no navegador automaticamente após salvar o arquivo na IDE.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Tecnologias Utilizadas
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* Angular
+* TypeScript
+* NodeJS
