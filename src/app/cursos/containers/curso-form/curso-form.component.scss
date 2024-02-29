@@ -1,12 +1,12 @@
 mat-card {
   border-radius: 0;
   width: 80%;
-  margin: 4em auto;
+  margin: 2em auto;
   align-items: center;
 }
 
 mat-card-content {
-  margin: 0 auto;
+  margin: .2em;
   width: 95%;
 }
 
@@ -16,7 +16,6 @@ mat-toolbar {
 
 .full-width {
   width: 100%;
-  margin-bottom: 10px;
 }
 
 .min-width {
@@ -36,7 +35,28 @@ mat-card-actions button {
   margin-left: 10px;
 }
 
+mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+}
 
-.form-array-error{
+.form-array-error {
   text-align: left;
+}
+
+tr {
+  display: flex;
+  justify-content: space-between;
+}
+
+td {
+  display: flex;
+}
+
+td button {
+  margin-top: 5px;
+}
+
+td button:hover mat-icon:hover {
+  color: #FF0000;
 }
